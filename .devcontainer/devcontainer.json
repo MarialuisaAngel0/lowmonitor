@@ -2,5 +2,5 @@
   "name": "lowmonitor",
   "image": "ubuntu:24.04",
   "runArgs": ["--platform=linux/amd64"],
-  "postCreateCommand": "apt-get update && apt-get install -y nasm make gdb binutils"
+  "postCreateCommand": "apt-get update && apt-get install -y nasm make gdb binutils git"
 }
