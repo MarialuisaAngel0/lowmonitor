@@ -1208,26 +1208,32 @@ print_level_ws:
     PRINT m5_end
     ret
 
-; detect_caches: CPUID hoja 4 -> l1_size, l2_size, l3_size (bytes)
+; detect_caches: CPUID hoja 4 (Intel) o 0x8000001D (AMD) -> l1/l2/l3_size
+; Ambas hojas devuelven el mismo formato de descriptor de cache.
 detect_caches:
     push rbx
     push r12
     push r13
+    push r14
+    push r15
     mov qword [l1_size], 32768
     mov qword [l2_size], 262144
     mov qword [l3_size], 8388608
+    xor r15d, r15d                      ; 1 si se encontro informacion
+    mov r14d, 4                         ; hoja a consultar
     xor eax, eax
     cpuid
     cmp eax, 4
-    jb .ret
+    jb .done_scan
+.scan_start:
     xor r12d, r12d
 .l:
-    mov eax, 4
+    mov eax, r14d
     mov ecx, r12d
     cpuid
     mov r13d, eax
     and r13d, 0x1F                      ; tipo
-    jz .ret
+    jz .done_scan
     cmp r13d, 2                         ; saltar cache de instrucciones
     je .next
     mov r8d, eax
@@ -1250,21 +1256,37 @@ detect_caches:
     cmp r8d, 1
     jne .t2
     mov [l1_size], rax
+    mov r15d, 1
     jmp .next
 .t2:
     cmp r8d, 2
     jne .t3
     mov [l2_size], rax
+    mov r15d, 1
     jmp .next
 .t3:
     cmp r8d, 3
     jne .next
     mov [l3_size], rax
+    mov r15d, 1
 .next:
     inc r12d
     cmp r12d, 16
     jb .l
+.done_scan:
+    test r15d, r15d
+    jnz .ret
+    cmp r14d, 4                         ; si ya se probo la hoja AMD, terminar
+    jne .ret
+    mov eax, 0x80000000
+    cpuid
+    cmp eax, 0x8000001D
+    jb .ret
+    mov r14d, 0x8000001D
+    jmp .scan_start
 .ret:
+    pop r15
+    pop r14
     pop r13
     pop r12
     pop rbx

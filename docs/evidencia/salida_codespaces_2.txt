@@ -1,0 +1,53 @@
+=== LowMonitor ===
+
+[Modulo 1] Identificacion del CPU
+Fabricante   : AuthenticAMD
+Procesador   : AMD EPYC 7763 64-Core Processor                
+Arquitectura : x86_64
+Familia      : 25
+Modelo       : 1
+Stepping     : 1
+Extensiones  : SSE SSE2 SSE4.1 SSE4.2 AVX AVX2 
+AVX usable (SO habilita YMM): Si
+AVX-512 usable (SO habilita ZMM): No
+
+
+[Modulo 2] Monitor de puertos E/S
+Permiso E/S: denegado (se requiere root); #GP sera capturado
+Puerto 60h (teclado): [BLOQUEADO: #GP capturado, sin permiso de E/S]
+Puerto 61h (panel): [BLOQUEADO: #GP capturado, sin permiso de E/S]
+Puerto 80h (POST, OUT 8/16/32): [BLOQUEADO: #GP capturado, sin permiso de E/S]
+Puerto 3F8h (COM1): [BLOQUEADO: #GP capturado, sin permiso de E/S]
+Puerto FFFFh (limite del espacio E/S): [BLOQUEADO: #GP capturado, sin permiso de E/S]
+
+[Modulo 3] Diagnostico de memoria
+Memoria total: 8 GB detectada (7942 MB)
+Bloque de prueba: 32 MB (mmap anonimo)
+Patrón 0xAA: PASADA (0 errores)
+Patrón 0x55: PASADA (0 errores)
+Patrón incremental: PASADA (0 errores)
+
+[Modulo 4] Monitor de rendimiento del CPU
+Frecuencia (TSC): 2.44 GHz
+Prueba A (adds independientes): IPC=3.11  CPI=0.32
+Prueba B (cadena dependiente):  IPC=1.82  CPI=0.54
+Ciclos totales: 52139279
+CPI promedio: 0.43
+IPC: 2.30
+Throughput (SSE2 addps/mulps): 29.57 GFLOPS
+
+[Modulo 5] Gestion jerarquica de memoria
+Registros: 0.78 ciclos TSC (dependencia de 1 ADD)
+L1 caché: 3.16 ciclos (32 KB)
+L2 caché: 12.81 ciclos (512 KB)
+L3 caché: 54.94 ciclos (32 MB)
+RAM: 275.08 ciclos (128 MB)
+
+[Modulo 6] Operaciones SIMD (bonus)
+AVX2 habilitado: Si
+Throughput: 8 operaciones paralelas (YMM, 256 bits)
+Suma vectorizada (vaddps): [OK]
+Multiplicación vectorizada (vmulps): [OK]
+Comparación vectorizada (vcmpltps): [OK]
+Benchmark AVX2: 62.20 GFLOPS
+AVX-512 habilitado: No
